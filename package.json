@@ -1,0 +1,18 @@
+{
+	"name": "mini-booking-root",
+	"private": true,
+	"scripts": {
+		"local:build": "docker compose -f docker-compose.yml -f docker-compose.dev.yml build",
+		"local:up": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+		"local:down": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
+		"local:logs": "docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f",
+		"//": "--- Выполняем миграции ВНУТРИ контейнера ---",
+		"local:db:init": "docker compose exec backend npx prisma migrate reset --force && docker compose exec backend yarn seed",
+		"local:reset": "yarn local:down && yarn local:up && echo 'Ждем БД...' && sleep 5 && yarn local:db:init",
+		"postinstall": "cd backend && yarn install && cd ../frontend && yarn install",
+		"local:seed": "docker compose exec backend yarn seed",
+		"prod:build": "docker compose -f docker-compose.yml build",
+		"prod:up": "docker compose -f docker-compose.yml up -d",
+		"prod:down": "docker compose -f docker-compose.yml down"
+	}
+}

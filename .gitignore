@@ -1,0 +1,41 @@
+# --- Основное ---
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# --- Backend & Frontend (Node.js) ---
+dist/
+build/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Prisma ---
+/backend/src/generated
+
+# --- Flutter (Mobile) ---
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+/mobile/build/
+
+# iOS/Android специфичный мусор
+/mobile/android/app/debug/
+/mobile/android/app/profile/
+/mobile/android/app/release/
+/mobile/ios/Flutter/Generated.xcconfig
+/mobile/ios/Flutter/flutter_export_environment.sh
+
+# --- Переменные окружения ---
+# В реальном проекте их НУЖНО раскомментировать.
+# .env
+# .env.local
+
+# --- IDE (VS Code, WebStorm) ---
+.vscode/
+.idea/
+*.swp
+*.swo

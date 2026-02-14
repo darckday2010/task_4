@@ -1,0 +1,49 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Hotel {
+  id        String   @id @default(uuid())
+  name      String
+  address   String?
+  rooms     Room[]
+  createdAt DateTime @default(now())
+}
+
+model Room {
+  id        String    @id @default(uuid())
+  number    String
+  price     Int       @default(100)
+  imageUrl  String
+  hotelId   String
+  hotel     Hotel     @relation(fields: [hotelId], references: [id])
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+
+  @@unique([hotelId, number])
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+model Booking {
+  id        String        @id @default(uuid())
+  guestName String
+  checkIn   DateTime      @db.Date
+  checkOut  DateTime      @db.Date
+  status    BookingStatus @default(CONFIRMED)
+  roomId    String
+  room      Room          @relation(fields: [roomId], references: [id])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([roomId, status, checkIn, checkOut])
+}
